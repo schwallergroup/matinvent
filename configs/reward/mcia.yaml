@@ -1,0 +1,18 @@
+# reward for lower the minimal co-incident area (MCIA) < 80 (single property optimization)
+_target_: rewards.reward.Reward
+
+root_dir: rewards
+
+prop_cfg:
+  - name: mcia
+    calculator:
+      _target_: rewards.calculators.PyMatGen
+      root_dir: rewards/mcia
+      task: mcia
+      substrate: Si
+    # target: 2.5 (float), descending, ascending
+    target: descending
+    minv: 0
+    maxv: 180
+
+reward_threshold: 0.8

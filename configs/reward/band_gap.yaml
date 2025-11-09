@@ -1,0 +1,19 @@
+# reward for target band gap = 3.0 eV (single property optimization)
+_target_: rewards.reward.Reward
+
+root_dir: rewards
+
+prop_cfg:
+  - name: band_gap
+    calculator:
+      _target_: rewards.calculators.ALIGNN
+      root_dir: rewards/bandgap
+      task: band_gap
+      device: ${device}
+      silent: true
+    # target: 2.5 (float), descending, ascending
+    target: 3.0
+    minv: 0.0
+    maxv: 2.0
+
+reward_threshold: 0.875

@@ -1,0 +1,13 @@
+_target_: models.suite.MatterGenSuite
+
+model_name: mattergen_base
+device: ${device}
+
+sample_cfg:
+  batch_size: ${calc:'${eval_size} * 4'}
+  num_batches: 1
+
+finetune_cfg:
+  batch_size: ${eval_size}
+  timesteps: 1000
+  lr: 1.0e-05

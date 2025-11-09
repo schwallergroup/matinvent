@@ -1,0 +1,19 @@
+# reward for target heat capacity > 1.5 J/g/K (single property optimization)
+_target_: rewards.reward.Reward
+
+root_dir: rewards
+
+prop_cfg:
+  - name: heat_capacity
+    calculator:
+      _target_: rewards.calculators.FairChem
+      root_dir: rewards/heat_capacity
+      task: heat_capacity
+      env_name: fair-chem-v1
+      worker: 5
+    # target: 2.5 (float), descending, ascending
+    target: ascending
+    minv: 0.25
+    maxv: 2.00
+
+reward_threshold: 0.8

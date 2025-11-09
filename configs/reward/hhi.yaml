@@ -1,0 +1,17 @@
+# reward for Herfindahl–Hirschman index (HHI) score < 1250 (single property optimization)
+_target_: rewards.reward.Reward
+
+root_dir: rewards
+
+prop_cfg:
+  - name: hhi
+    calculator:
+      _target_: rewards.calculators.PyMatGen
+      root_dir: rewards/hhi
+      task: hhi
+    # target: 2.5 (float), descending, ascending
+    target: descending
+    minv: 750
+    maxv: 3250
+
+reward_threshold: 0.8

@@ -1,0 +1,19 @@
+# reward for higher pugh ratio (single property optimization)
+_target_: rewards.reward.Reward
+
+root_dir: rewards
+
+prop_cfg:
+  - name: pugh_ratio
+    calculator:
+      _target_: rewards.calculators.ALIGNN
+      root_dir: rewards/pugh_ratio
+      task: pugh_ratio
+      device: ${device}
+      silent: true
+    # target: 2.5 (float), descending, ascending
+    target: ascending
+    minv: 1.5
+    maxv: 10.0
+
+reward_threshold: 0.8

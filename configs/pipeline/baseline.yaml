@@ -1,0 +1,18 @@
+_target_: pipeline.baseline.Baseline
+
+# global
+rl_epoch: 200
+device: ${device}
+
+# saving
+save_dir: ./
+save_freq: 100  # for agent model
+
+# sampling
+sample_cfg:
+  batch_size: ${sample_size}
+  num_batches: 1
+
+# finetune
+finetune_cfg:
+  batch_size: ${sample_size}

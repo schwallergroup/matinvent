@@ -1,0 +1,19 @@
+# reward for higher young modulus (single property optimization)
+_target_: rewards.reward.Reward
+
+root_dir: rewards
+
+prop_cfg:
+  - name: young_modulus
+    calculator:
+      _target_: rewards.calculators.ALIGNN
+      root_dir: rewards/young_modulus
+      task: young_modulus
+      device: ${device}
+      silent: true
+    # target: 2.5 (float), descending, ascending
+    target: ascending
+    minv: 80.0
+    maxv: 480.0
+
+reward_threshold: 0.8

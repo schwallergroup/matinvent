@@ -1,0 +1,45 @@
+# option2: reward for figure of merit > 210, bandgap > 3.0eV, total dielectric constant > 30 (multiple property optimization)
+_target_: rewards.reward.Reward
+
+root_dir: rewards
+
+prop_cfg:
+  - name: figure_of_merit
+    calculator:
+      _target_: rewards.calculators.ALIGNN
+      root_dir: rewards/figure_of_merit
+      task: figure_of_merit
+      device: ${device}
+      silent: true
+    # target: 2.5 (float), descending, ascending
+    target: ascending
+    minv: 10.0
+    maxv: 250.0
+    weight: 0.8
+  - name: band_gap
+    calculator:
+      _target_: rewards.calculators.ALIGNN
+      root_dir: rewards/bandgap
+      task: band_gap
+      device: ${device}
+      silent: true
+    # target: 2.5 (float), descending, ascending
+    target: ascending
+    minv: 0.5
+    maxv: 3.5
+    weight: 0.1
+  - name: total_dielectric_constant
+    calculator:
+      _target_: rewards.calculators.ALIGNN
+      root_dir: rewards/total_dielectric_constant
+      task: total_dielectric_constant
+      device: ${device}
+      silent: true
+    # target: 2.5 (float), descending, ascending
+    target: ascending
+    minv: 25.0
+    maxv: 50.0
+    weight: 0.1
+
+reward_threshold: 0.8
+reduce: weight

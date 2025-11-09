@@ -1,0 +1,19 @@
+# option1: reward for target figure of merit > 210 (multiple property optimization)
+_target_: rewards.reward.Reward
+
+root_dir: rewards
+
+prop_cfg:
+  - name: figure_of_merit
+    calculator:
+      _target_: rewards.calculators.ALIGNN
+      root_dir: rewards/figure_of_merit
+      task: figure_of_merit
+      device: ${device}
+      silent: true
+    # target: 2.5 (float), descending, ascending
+    target: ascending
+    minv: 10.0
+    maxv: 250.0
+
+reward_threshold: 0.8

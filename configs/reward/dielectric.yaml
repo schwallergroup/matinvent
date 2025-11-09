@@ -1,0 +1,19 @@
+# reward for target total dielectric constant > 80 (single property optimization)
+_target_: rewards.reward.Reward
+
+root_dir: rewards
+
+prop_cfg:
+  - name: total_dielectric_constant
+    calculator:
+      _target_: rewards.calculators.ALIGNN
+      root_dir: rewards/total_dielectric_constant
+      task: total_dielectric_constant
+      device: ${device}
+      silent: true
+    # target: 2.5 (float), descending, ascending
+    target: ascending
+    minv: 35.0
+    maxv: 120.0
+
+reward_threshold: 0.875

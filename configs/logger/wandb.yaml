@@ -1,0 +1,6 @@
+_target_: pipeline.utils.logger.WandBLogger
+name: ${expname}
+project: MatInvent
+entity: null
+group: null
+mode: 'online'

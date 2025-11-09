@@ -1,0 +1,19 @@
+# reward for lower formation energy (single property optimization)
+_target_: rewards.reward.Reward
+
+root_dir: rewards
+
+prop_cfg:
+  - name: formation_energy
+    calculator:
+      _target_: rewards.calculators.ALIGNN
+      root_dir: rewards/form_e
+      task: formation_energy
+      device: ${device}
+      silent: true
+    # target: 2.5 (float), descending, ascending
+    target: descending
+    minv: -3.5
+    maxv: -1.0
+
+reward_threshold: 0.6

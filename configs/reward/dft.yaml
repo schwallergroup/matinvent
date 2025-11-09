@@ -1,0 +1,19 @@
+# reward for target band gap = 3.0 eV using DFT method (single property optimization)
+_target_: rewards.reward.Reward
+
+root_dir: rewards
+
+prop_cfg:
+  - name: dft_band_gap
+    calculator:
+      _target_: rewards.calculators.DFTCalc
+      root_dir: rewards/dft_bandgap
+      task: band_gap
+      max_node: 16
+      config_path: 'rewards/calculators/dft/config.yaml'
+    # target: 2.5 (float), descending, ascending
+    target: 3.0
+    minv: 0.0
+    maxv: 2.0
+
+reward_threshold: 0.875

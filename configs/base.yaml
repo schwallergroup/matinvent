@@ -1,0 +1,36 @@
+# global setting
+expname: test
+results_dir: exp_res
+device: cuda
+
+# RL
+rl_epoch: 120
+
+# sampling
+sample_cfg:
+  num_batches: 1
+  max_num: ${eval_size}
+  filter:
+    _target_: pipeline.filters.opt_filter.OptFilter
+    metrics:
+      - validity
+      - novel
+      - unique
+      - stable
+    device: ${device}
+    silent: True
+
+# rewards and finetune
+# maximum number of samples to score per RL loop
+eval_size: 16
+
+hydra:
+  run:
+    dir: ${results_dir}/${expname}
+    # dir: ${results_dir}/${expname}-${now:%Y-%m-%d_%H-%M-%S}
+
+defaults:
+  - pipeline: mat_invent
+  - model: mattergen
+  - reward: hhi
+  - logger: wandb

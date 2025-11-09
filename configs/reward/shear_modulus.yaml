@@ -1,0 +1,19 @@
+# reward for target shear modulus = 200 GPa (single property optimization)
+_target_: rewards.reward.Reward
+
+root_dir: rewards
+
+prop_cfg:
+  - name: shear_modulus
+    calculator:
+      _target_: rewards.calculators.ALIGNN
+      root_dir: rewards/shear_modulus
+      task: shear_modulus
+      device: ${device}
+      silent: true
+    # target: 2.5 (float), descending, ascending
+    target: 200.0
+    minv: 0.0
+    maxv: 160
+
+reward_threshold: 0.9

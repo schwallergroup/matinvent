@@ -1,0 +1,19 @@
+# reward for target magnetic density > 0.2 (single property optimization)
+_target_: rewards.reward.Reward
+
+root_dir: rewards
+
+prop_cfg:
+  - name: magnetic_density
+    calculator:
+      _target_: rewards.calculators.ALIGNN
+      root_dir: rewards/magnetic_density
+      task: magnetic_density
+      device: ${device}
+      silent: true
+    # target: 2.5 (float), descending, ascending
+    target: ascending
+    minv: 0.0
+    maxv: 0.25
+
+reward_threshold: 0.8

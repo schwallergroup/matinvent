@@ -1,0 +1,17 @@
+# reward for higer elemental abundance (single property optimization)
+_target_: rewards.reward.Reward
+
+root_dir: rewards
+
+prop_cfg:
+  - name: log_abundance
+    calculator:
+      _target_: rewards.calculators.PyMatGen
+      root_dir: rewards/log_abundance
+      task: log_abundance
+    # target: 2.5 (float), descending, ascending
+    target: ascending
+    minv: 2
+    maxv: 5
+
+reward_threshold: 0.8

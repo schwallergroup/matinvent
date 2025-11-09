@@ -1,0 +1,17 @@
+# reward for synthesizability score > 0.9 (single property optimization)
+_target_: rewards.reward.Reward
+
+root_dir: rewards
+
+prop_cfg:
+  - name: syn_score
+    calculator:
+      _target_: rewards.calculators.SynScore
+      root_dir: rewards/syn_score
+      task: syn_score
+    # target: 2.5 (float), descending, ascending
+    target: ascending
+    minv: 0.5
+    maxv: 1.0
+
+reward_threshold: 0.8

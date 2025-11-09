@@ -1,0 +1,29 @@
+# reward for magnetic density > 0.2 and HHI score < 1500 (multiple property optimization)
+_target_: rewards.reward.Reward
+
+root_dir: rewards
+
+prop_cfg:
+  - name: magnetic_density
+    calculator:
+      _target_: rewards.calculators.ALIGNN
+      root_dir: rewards/magnetic_density
+      task: magnetic_density
+      device: ${device}
+      silent: true
+    # target: 2.5 (float), descending, ascending
+    target: ascending
+    minv: 0.0
+    maxv: 0.25
+  - name: hhi
+    calculator:
+      _target_: rewards.calculators.PyMatGen
+      root_dir: rewards/hhi
+      task: hhi
+    # target: 2.5 (float), descending, ascending
+    target: descending
+    minv: 750
+    maxv: 3250
+
+reward_threshold: 0.8
+reduce: min
