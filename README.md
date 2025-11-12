@@ -7,16 +7,37 @@ MatInvent is a general and efficient reinforcement learning workflow that optimi
 
 
 ## 🚀 Environment Setup
-- System requirements: This package requires a standard Linux computer with GPU (supports CUDA >= 11) and enough RAM (> 2 GB). If you want to run the code on a GPU that does not support CUDA>=11, you need to modify the versions of PyTorch and CUDA in the [env.yml](env.yml) file.
-- We'll use `conda` to install dependencies and set up the environment for a Nvidia GPU machine.
+System requirements: This package requires a standard Linux computer with GPU (supports CUDA >= 11) and enough RAM (> 2 GB). If you want to run the code on a GPU that does not support CUDA>=11, you need to modify the versions of PyTorch and CUDA in the [env.yml](env.yml) file. Two methods for environment setup are provided, and you can choose one according to your preference. Typically, method 1 (~2 min) is much faster than method 2 (>10 min).
+
+---
+
+**Method 1 (uv)**
+
+A quick way to setup the environment is by [uv](https://docs.astral.sh/uv/), a fast Python package and project manager.
+1. Run the script [uv_install.sh](scripts/uv_install.sh) to create a uv environment and install the dependencies into `.venv` folder:
+   ```bash
+   bash scripts/uv_install.sh
+   ```
+2. Activate the uv environment with `source .venv/bin/activate`.
+
+---
+
+**Method 2 (conda/mamba)**
+
+1. Use `conda` to install dependencies and set up the environment for a Nvidia GPU machine.
 We recommend using the [Miniconda installer](https://www.anaconda.com/docs/getting-started/miniconda/install). You can also install [`mamba`](https://mamba.readthedocs.io/en/latest/) to the conda base environment by the command `conda install mamba -n base -c conda-forge`. `mamba` is a faster, drop-in replacement for `conda`.
-- Then create a conda environment and install the dependencies:
+1. Then create a conda environment and install the dependencies:
     ```bash
     conda env create -f env.yml
     # OR use mamba to create new env faster
     # mamba env create -f env.yml
     ```
     Activate the conda environment with `conda activate matinvent`.
+
+---
+
+**Additional Configuration**
+
 - We use[ Weights & Biases (wandb)](https://wandb.ai/) by default to record RL results, which can visualize RL curves online in real time. If you would like to use `wandb`, please [login](https://wandb.ai/quickstart?product=models) to your account before running the RL experiment. If you do not want to use `wandb`, please change the `logger` parameter in the [run script](scripts/run_rl.sh) to `logger=csv`.
 - If you want to calculate specific heat capacities for RL rewards using [FairChem](https://github.com/facebookresearch/fairchem) software and pre-trained ML potentials [eSEN-30M-OAM](https://huggingface.co/facebook/OMAT24), please follow this [tutorial](rewards/calculators/fairchem/README.md) to install the additional conda environment.
 

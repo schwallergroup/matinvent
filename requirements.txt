@@ -1,0 +1,28 @@
+# PyTorch with CUDA 11.8
+--extra-index-url https://download.pytorch.org/whl/cu118
+torch==2.2.1+cu118
+torchvision==0.17.1+cu118
+torchaudio==2.2.1+cu118
+
+# PyTorch Geometric and extensions
+--find-links https://data.pyg.org/whl/torch-2.2.1+cu118.html
+torch_geometric>=2.5
+# torch_scatter
+# torch_sparse
+# torch_cluster
+
+# Deep Graph Library
+--find-links https://data.dgl.ai/wheels/torch-2.2/cu118/repo.html
+dgl
+
+# Core dependencies
+tqdm
+ase<=3.25.0
+SMACT<=3.1.0
+alignn==2024.12.12
+pymatgen==2024.10.29
+atomate2==0.0.18
+mattersim==1.1.2
+
+# MatterGen (from GitHub)
+# git+https://github.com/microsoft/mattergen.git#egg=mattergen
