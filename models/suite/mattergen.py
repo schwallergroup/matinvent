@@ -20,6 +20,7 @@ from models.mattergen.dataset import MatterGenDataset
 
 AVA_MODEL_NAME = Literal[
     "mattergen_base",
+    "mattergen_mp_20_base",
     "mattergen_chemical_system",
     "mattergen_space_group",
     "mattergen_dft_mag_density",

@@ -4,7 +4,7 @@ model_name: mattergen_base
 device: ${device}
 
 sample_cfg:
-  batch_size: ${calc:'${eval_size} * 4'}
+  batch_size: ${calc:'${eval_size} * 3'}
   num_batches: 1
 
 finetune_cfg:

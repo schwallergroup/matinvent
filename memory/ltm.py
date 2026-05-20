@@ -68,7 +68,7 @@ class LongTimeMem:
         rewards: np.ndarray[float],
         tol: int = 10,
         buff: int = 20,
-        method: str ="composition",
+        method: str ="element_comb",
         **kwargs,
     ) -> Tuple[np.ndarray[float], int, int]:
         # ref: Augmented Hill-Climb, https://doi.org/10.1186/s13321-022-00646-z

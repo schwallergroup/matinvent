@@ -4,7 +4,7 @@ results_dir: exp_res
 device: cuda
 
 # RL
-rl_epoch: 120
+rl_epoch: 200
 
 # sampling
 sample_cfg:
@@ -18,10 +18,11 @@ sample_cfg:
       - unique
     device: ${device}
     silent: True
+    relax: False
 
 # rewards and finetune
 # maximum number of samples to score per RL loop
-eval_size: 16
+eval_size: 32
 
 hydra:
   run:
@@ -31,5 +32,5 @@ hydra:
 defaults:
   - pipeline: mat_invent
   - model: mattergen
-  - reward: hhi
+  - reward: ehull
   - logger: wandb
