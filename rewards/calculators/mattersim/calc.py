@@ -8,10 +8,10 @@ import numpy as np
 from pymatgen.core.structure import Structure
 from huggingface_hub import hf_hub_download
 
-from mattergen.evaluation.reference.reference_dataset_serializer import LMDBGZSerializer
-from mattergen.evaluation.utils.metrics_structure_summary import get_metrics_structure_summaries
-from mattergen.evaluation.utils.relaxation import relax_structures
-from mattergen.evaluation.metrics.energy import EnergyMetricsCapability
+from utils.evaluation.reference_dataset_serializer import LMDBGZSerializer
+from utils.evaluation.metrics_structure_summary import get_metrics_structure_summaries
+from utils.evaluation.relaxation import relax_structures
+from utils.evaluation.energy import EnergyMetricsCapability
 
 from rewards.calculators.base import Calculator
 

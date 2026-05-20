@@ -18,13 +18,13 @@ source .venv/bin/activate
 .venv/bin/python ...
 ```
 
-This environment is pre-installed with all dependencies (including MatterGen). Never use system Python or create a new environment.
+This environment is pre-installed with all dependencies. MatterGen model code is bundled in `mattergen/` — no separate package install needed. Never use system Python or create a new environment.
 
 ## Environment Setup
 
 **Method 1 (recommended, ~2 min):**
 ```bash
-bash scripts/uv_install.sh   # creates .venv and installs deps including MatterGen from GitHub
+bash scripts/uv_install.sh   # creates .venv and installs all deps (MatterGen bundled in mattergen/)
 source .venv/bin/activate
 ```
 

@@ -10,11 +10,11 @@ from huggingface_hub import hf_hub_download
 import torch
 
 
-from mattergen.evaluation.reference.reference_dataset_serializer import LMDBGZSerializer
-from mattergen.evaluation.metrics.evaluator import MetricsEvaluator
-from mattergen.evaluation.metrics.structure import structure_validity, is_smact_valid
-from mattergen.evaluation.utils.relaxation import relax_structures
-from mattergen.evaluation.utils.structure_matcher import (
+from utils.evaluation.reference_dataset_serializer import LMDBGZSerializer
+from utils.evaluation.evaluator import MetricsEvaluator
+from utils.evaluation.structure import structure_validity, is_smact_valid
+from utils.evaluation.relaxation import relax_structures
+from utils.evaluation.structure_matcher import (
     DefaultDisorderedStructureMatcher,
     DefaultOrderedStructureMatcher,
 )
