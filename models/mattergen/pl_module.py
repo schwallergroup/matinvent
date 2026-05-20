@@ -4,10 +4,10 @@ from omegaconf import DictConfig
 import torch
 from torch_scatter import scatter
 
-from mattergen.diffusion.config import Config
-from mattergen.diffusion.data.batched_data import BatchedData
-from mattergen.diffusion.diffusion_module import DiffusionModule
-from mattergen.diffusion.lightning_module import DiffusionLightningModule
+from models.mattergen.diffusion.config import Config
+from models.mattergen.diffusion.data.batched_data import BatchedData
+from models.mattergen.diffusion.diffusion_module import DiffusionModule
+from models.mattergen.diffusion.lightning_module import DiffusionLightningModule
 
 from models.mattergen.loss import SampleLoss
 

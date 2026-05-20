@@ -7,10 +7,10 @@ from numpy.typing import NDArray
 import torch
 from torch.utils.data import DataLoader
 
-from mattergen.common.utils.eval_utils import MatterGenCheckpointInfo
-from mattergen.common.data.chemgraph import ChemGraph
-from mattergen.common.data.collate import collate
-from mattergen.common.data.datamodule import worker_init_fn
+from models.mattergen.common.utils.eval_utils import MatterGenCheckpointInfo
+from models.mattergen.common.data.chemgraph import ChemGraph
+from models.mattergen.common.data.collate import collate
+from models.mattergen.common.data.datamodule import worker_init_fn
 
 from models.suite.base import ModelSuite
 from models.mattergen.pl_module import MatterGenModule

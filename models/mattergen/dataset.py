@@ -2,10 +2,10 @@ from dataclasses import dataclass
 import numpy as np
 from numpy.typing import NDArray
 
-from mattergen.common.data.collate import collate
-from mattergen.common.data.dataset import CrystalDataset
-from mattergen.common.data.chemgraph import ChemGraph
-from mattergen.common.data.transform import (
+from models.mattergen.common.data.collate import collate
+from models.mattergen.common.data.dataset import CrystalDataset
+from models.mattergen.common.data.chemgraph import ChemGraph
+from models.mattergen.common.data.transform import (
     Transform,
     symmetrize_lattice,
     set_chemical_system_string,

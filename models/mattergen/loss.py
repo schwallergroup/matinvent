@@ -1,9 +1,9 @@
 from typing import Dict, Literal, Optional, Tuple, TypeVar
 import torch
 
-from mattergen.common.loss import MaterialsLoss
-from mattergen.diffusion.corruption.multi_corruption import MultiCorruption, apply
-from mattergen.diffusion.data.batched_data import BatchedData
+from models.mattergen.common.loss import MaterialsLoss
+from models.mattergen.diffusion.corruption.multi_corruption import MultiCorruption, apply
+from models.mattergen.diffusion.data.batched_data import BatchedData
 
 T = TypeVar("T", bound=BatchedData)
 

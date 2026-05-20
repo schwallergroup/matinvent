@@ -8,20 +8,20 @@ from omegaconf import DictConfig
 from pymatgen.core.structure import Structure
 from tqdm import tqdm
 
-from mattergen.common.data.chemgraph import ChemGraph
-from mattergen.common.data.collate import collate
-from mattergen.common.data.condition_factory import ConditionLoader
-from mattergen.common.data.num_atoms_distribution import NUM_ATOMS_DISTRIBUTIONS
-from mattergen.common.data.types import TargetProperty
-from mattergen.common.utils.data_utils import lattice_matrix_to_params_torch
-from mattergen.common.utils.eval_utils import (
+from models.mattergen.common.data.chemgraph import ChemGraph
+from models.mattergen.common.data.collate import collate
+from models.mattergen.common.data.condition_factory import ConditionLoader
+from models.mattergen.common.data.num_atoms_distribution import NUM_ATOMS_DISTRIBUTIONS
+from models.mattergen.common.data.types import TargetProperty
+from models.mattergen.common.utils.data_utils import lattice_matrix_to_params_torch
+from models.mattergen.common.utils.eval_utils import (
     get_crystals_list,
     make_structure,
     save_structures,
 )
-from mattergen.common.utils.globals import DEFAULT_SAMPLING_CONFIG_PATH
-from mattergen.diffusion.lightning_module import DiffusionLightningModule
-from mattergen.diffusion.sampling.pc_sampler import PredictorCorrector
+from models.mattergen.common.utils.globals import DEFAULT_SAMPLING_CONFIG_PATH
+from models.mattergen.diffusion.lightning_module import DiffusionLightningModule
+from models.mattergen.diffusion.sampling.pc_sampler import PredictorCorrector
 
 
 def draw_samples_from_sampler(
@@ -239,7 +239,7 @@ class MatterGenSampler:
                 num_batches * batch_size // len(target_compositions_dict)
             )
             sampling_config_overrides += [
-                "condition_loader_partial._target_=mattergen.common.data.condition_factory.get_composition_data_loader",
+                "condition_loader_partial._target_=models.mattergen.common.data.condition_factory.get_composition_data_loader",
                 f"+condition_loader_partial.num_structures_to_generate_per_composition={num_structures_to_generate_per_composition}",
                 f"+condition_loader_partial.batch_size={batch_size}",
             ]
