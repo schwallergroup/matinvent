@@ -162,13 +162,20 @@ class OptFilter:
         else:
             relaxed_structures = structures
 
-        evaluator = MetricsEvaluator.from_structures_and_energies(
-            structures=relaxed_structures,
-            energies=energies,
-            original_structures=structures,
-            reference=self.reference,
-            structure_matcher=self.structure_matcher,
-        )
+        if energies is not None:
+            evaluator = MetricsEvaluator.from_structures_and_energies(
+                structures=relaxed_structures,
+                energies=energies,
+                original_structures=structures,
+                reference=self.reference,
+                structure_matcher=self.structure_matcher,
+            )
+        else:
+            evaluator = MetricsEvaluator.from_structures(
+                structures=relaxed_structures,
+                reference=self.reference,
+                structure_matcher=self.structure_matcher,
+            )
 
         metric_dict = evaluator.compute_metrics(
             metrics=evaluator.available_metrics,

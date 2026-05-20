@@ -16,7 +16,6 @@ sample_cfg:
       - validity
       - novel
       - unique
-      - stable
     device: ${device}
     silent: True
 
