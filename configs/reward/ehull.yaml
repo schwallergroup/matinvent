@@ -15,7 +15,7 @@ prop_cfg:
       root_dir: rewards/ehull
       task: ehull
     target: descending
-    minv: -0.1
-    maxv: 0.125
+    minv: -0.2
+    maxv: 0.1
 
 reward_threshold: 0.6

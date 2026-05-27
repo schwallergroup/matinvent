@@ -144,7 +144,7 @@ def vsun_filter(
     data: list,
     structures: List[Structure],
     stability_threshold: float = 0.0,
-    metastability_threshold: float = 0.125,
+    metastability_threshold: float = 0.1,
     device: Optional[str] = None,
     fmax: float = 0.02,
     max_steps: int = 50,
