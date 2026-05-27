@@ -4,7 +4,7 @@ results_dir: exp_res
 device: cuda
 
 # RL
-rl_epoch: 200
+rl_epoch: 400
 
 # sampling
 sample_cfg:

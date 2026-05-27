@@ -13,7 +13,7 @@ import torch
 from utils.evaluation.reference_dataset_serializer import LMDBGZSerializer
 from utils.evaluation.evaluator import MetricsEvaluator
 from utils.evaluation.structure import structure_validity, is_smact_valid
-from utils.evaluation.relaxation import relax_structures
+# from utils.evaluation.relaxation import relax_structures
 from utils.evaluation.structure_matcher import (
     DefaultDisorderedStructureMatcher,
     DefaultOrderedStructureMatcher,

@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Sequence
 
 import numpy as np
-from emmet.core.material import PropertyOrigin
+# from emmet.core.material import PropertyOrigin
 
 from models.mattergen.common.utils.globals import PROPERTY_SOURCE_IDS
 
@@ -19,7 +19,7 @@ class PropertyValues:
     "A class for storing the values of a property"
     values: np.ndarray
     property_source_doc_id: PropertySourceId
-    origins: list[PropertyOrigin] | None = (
+    origins: list | None = (
         None  # Dictionary for tracking the provenance of properties, emmet-style.
     )
 

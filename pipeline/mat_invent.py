@@ -7,11 +7,11 @@ import torch
 from omegaconf import DictConfig
 
 from pipeline.base import ReinL
-from pipeline.filters import OptEval, invalid_filter
 from pipeline.utils.save import save_structures
 from pipeline.utils.logger import Logger
 from rewards.reward import Reward
 from models.suite.base import ModelSuite
+from utils.sun_filter import vsun_filter
 
 
 class MatInvent(ReinL):
@@ -76,7 +76,8 @@ class MatInvent(ReinL):
             model=self.agent, **self.sample_cfg,
         )
         # Filter invalid samples
-        sample_data, sample_struc = invalid_filter(sample_data, sample_struc)
+        sample_data, sample_struc, msun_ratio = vsun_filter(sample_data, sample_struc)
+        metrics = {'msun_ratio': msun_ratio}
 
         # save all generated valid structures
         valid_xyz_path = save_structures(
@@ -86,23 +87,24 @@ class MatInvent(ReinL):
         )
 
         # MLIP relaxation
-        if self.sample_cfg.get('mlip_opt'):
-            mlip_opt = self.sample_cfg.mlip_opt
-            sample_struc, energies = mlip_opt(sample_struc, valid_xyz_path)
-        else:
-            energies = None
+        # if self.sample_cfg.get('mlip_opt'):
+        #     mlip_opt = self.sample_cfg.mlip_opt
+        #     sample_struc, energies = mlip_opt(sample_struc, valid_xyz_path)
+        # else:
+        #     energies = None
 
         # Filter bad samples by selected metrics
-        if self.sample_cfg.get('filter'):
-            filter = self.sample_cfg.filter
-            sample_data, sample_struc, metrics = filter(
-                sample_data, sample_struc, energies,
-            )
-            logging.info(f'Number of filtered samples: {len(sample_struc)}')
-        else:
-            # metrics, _ = self.opt_eval(sample_struc, energies)
-            metrics = {}
+        # if self.sample_cfg.get('filter'):
+        #     filter = self.sample_cfg.filter
+        #     sample_data, sample_struc, metrics = filter(
+        #         sample_data, sample_struc, energies,
+        #     )
+        #     logging.info(f'Number of filtered samples: {len(sample_struc)}')
+        # else:
+        #     # metrics, _ = self.opt_eval(sample_struc, energies)
+        #     metrics = {}
 
+        logging.info(f'Number of filtered samples: {len(sample_struc)}')
         log_str = [f'{k}: {v:.6f}' for k, v in metrics.items()]
         logging.info(', '.join(log_str))
 

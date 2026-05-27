@@ -9,7 +9,7 @@ import torch
 from pytorch_lightning.callbacks import Callback
 from tqdm.auto import tqdm
 
-from mattergen.denoiser import GemNetTDenoiser
+from models.mattergen.denoiser import GemNetTDenoiser
 from models.mattergen.diffusion.lightning_module import DiffusionLightningModule
 TensorOrStringType = TypeVar("TensorOrStringType", torch.Tensor, list[str])
 

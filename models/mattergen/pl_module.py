@@ -1,6 +1,7 @@
+from pathlib import Path
 from typing import Optional, TypeVar
 from hydra.utils import instantiate
-from omegaconf import DictConfig
+from omegaconf import DictConfig, OmegaConf
 import torch
 from torch_scatter import scatter
 
@@ -12,6 +13,23 @@ from models.mattergen.diffusion.lightning_module import DiffusionLightningModule
 from models.mattergen.loss import SampleLoss
 
 T = TypeVar("T", bound=BatchedData)
+
+_GEMNET_SCALE_FILE = str(Path(__file__).parent / "common" / "gemnet" / "gemnet-dT.json")
+
+
+def _patch_config(obj):
+    """Recursively replace mattergen.* _target_ paths with models.mattergen.*,
+    and fix the hardcoded gemnet scale_file absolute path."""
+    if isinstance(obj, dict):
+        if "_target_" in obj and isinstance(obj["_target_"], str) and obj["_target_"].startswith("mattergen."):
+            obj["_target_"] = "models." + obj["_target_"]
+        if "scale_file" in obj and isinstance(obj["scale_file"], str):
+            obj["scale_file"] = _GEMNET_SCALE_FILE
+        for v in obj.values():
+            _patch_config(v)
+    elif isinstance(obj, list):
+        for item in obj:
+            _patch_config(item)
 
 
 class MatterGenModule(DiffusionLightningModule):
@@ -113,7 +131,11 @@ class MatterGenModule(DiffusionLightningModule):
         use the config passed in as an argument. This is useful when, e.g., an unused argument was
         removed in the code but is still present in the checkpoint config."""
         checkpoint = torch.load(checkpoint_path, map_location=map_location)
-        config._target_ = "models.mattergen.pl_module.MatterGenModule"
+
+        container = OmegaConf.to_container(config, resolve=False)
+        _patch_config(container)
+        container["_target_"] = "models.mattergen.pl_module.MatterGenModule"
+        config = OmegaConf.create(container)
 
         lightning_module = instantiate(config)
         lightning_module.config = config

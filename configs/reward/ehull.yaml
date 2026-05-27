@@ -11,12 +11,11 @@ root_dir: rewards
 prop_cfg:
   - name: ehull
     calculator:
-      _target_: rewards.calculators.MatterSimEhull
+      _target_: rewards.calculators.FakeEhull
       root_dir: rewards/ehull
       task: ehull
-      device: ${device}
     target: descending
     minv: -0.1
-    maxv: 0.2
+    maxv: 0.125
 
 reward_threshold: 0.6

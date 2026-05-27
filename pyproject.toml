@@ -1,0 +1,62 @@
+[project]
+name        = "matinvent"
+version     = "0.1.0"
+description = "MatInvent: Accelerating inverse materials design using generative diffusion models with reinforcement learning"
+requires-python = ">=3.12,<3.13"
+
+dependencies = [
+    "numpy~=2.3",
+    "scipy~=1.16",
+    "pandas>=2.2.3",
+    "torch~=2.8",
+    "torch-geometric~=2.7",
+    "torch_scatter",
+    "torch_sparse",
+    "lightning[extra]~=2.5",
+    "e3nn==0.5.0",
+    "pymatgen~=2025.6",
+    "ase~=3.25",
+    "spglib~=2.6",
+    "smact~=3.1",
+    "huggingface-hub~=1.2",
+    "datasets>=3.5.0",
+    "mace-torch>=0.3.13",
+    "orb-models>=0.5.1",
+    "fairchem-core>=2.10.0",
+    "torch-sim-atomistic>=0.6.0",
+    "jsonargparse==4.41",
+    "hydra-core>=1.2.0",
+    "omegaconf>=2.2.0",
+    "cachetools",
+    "wandb~=0.20",
+    "lmdb<=1.8.1",
+    "monty",
+    "sympy>=1.11.1",
+    "tqdm~=4.67",
+    "pyyaml~=6.0",
+    "pytest~=8.4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ipykernel",
+    "jupyterlab",
+]
+
+[tool.uv]
+override-dependencies = [
+    "e3nn==0.5.0",
+]
+
+find-links = [
+    "https://data.pyg.org/whl/torch-2.8.0+cu128.html",
+]
+
+[[tool.uv.index]]
+name     = "pytorch-cu128"
+url      = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+
+[tool.uv.sources]
+torch         = { index = "pytorch-cu128" }

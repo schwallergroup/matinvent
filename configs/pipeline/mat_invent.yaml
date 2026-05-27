@@ -16,19 +16,19 @@ topk_ratio: 0.5
 # experience replay
 replay: True
 replay_args:
-  buffer_size: 100
+  buffer_size: 200
   sample_size: 10
   reward_cutoff: 0.1
 
 # diversity filter
 div_filter: True
 df_args:
-  tol: 3
-  buff: 6
+  tol: 2
+  buff: 4
 
 # finetune
 finetune_cfg:
   batch_size: ${eval_size}
-  accum_steps: 50  # accumulation_steps
-  epochs: 3
+  accum_steps: 200  # accumulation_steps
+  epochs: 2
   sigma: 0.025

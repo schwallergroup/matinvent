@@ -1,6 +1,8 @@
-from rewards.calculators.alignn.calc import ALIGNN
+# from rewards.calculators.alignn.calc import ALIGNN
 from rewards.calculators.pymatgen.calc import PyMatGen
-from rewards.calculators.dft.calc import DFTCalc
+# from rewards.calculators.dft.calc import DFTCalc
 from rewards.calculators.syn_score.calc import SynScore
-from rewards.calculators.fairchem.calc import FairChem
-from rewards.calculators.mattersim.calc import MatterSimEhull
+# from rewards.calculators.fairchem.calc import FairChem
+# from rewards.calculators.mattersim.calc import MatterSimEhull
+# from rewards.calculators.comformer import ComformerPred
+from rewards.calculators.fake_ehull import FakeEhull

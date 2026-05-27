@@ -1,7 +1,7 @@
 #!/bin/bash
 
 [ ! -d "exp_res" ] && mkdir -p exp_res
-# export HYDRA_FULL_ERROR=1  # for debug
+export HYDRA_FULL_ERROR=1  # for debug
 
 EXPNAME="lemat-genbench-alex-mp-20"
 
