@@ -1,6 +1,6 @@
 _target_: models.suite.MatterGenSuite
 
-model_name: mattergen_base
+model_name: mattergen_mp_20_base
 device: ${device}
 
 sample_cfg:

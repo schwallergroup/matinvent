@@ -3,7 +3,7 @@
 [ ! -d "exp_res" ] && mkdir -p exp_res
 export HYDRA_FULL_ERROR=1  # for debug
 
-EXPNAME="lemat-genbench-alex-mp-20"
+EXPNAME="lemat-genbench-mp-20_lessft"
 
 nohup python -u main.py \
     expname=${EXPNAME} \
