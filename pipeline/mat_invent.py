@@ -1,3 +1,5 @@
+import contextlib
+import io
 import os
 import time
 import logging
@@ -54,8 +56,8 @@ class MatInvent(ReinL):
         self.div_filter = div_filter
         self.df_args = df_args
 
-        if 'filter' not in self.sample_cfg:
-            self.opt_eval = OptEval()
+        # if 'filter' not in self.sample_cfg:
+        #     self.opt_eval = OptEval()
 
         self.load_model()
 
@@ -76,7 +78,8 @@ class MatInvent(ReinL):
             model=self.agent, **self.sample_cfg,
         )
         # Filter invalid samples
-        sample_data, sample_struc, msun_ratio = vsun_filter(sample_data, sample_struc)
+        with contextlib.redirect_stdout(io.StringIO()):
+            sample_data, sample_struc, msun_ratio = vsun_filter(sample_data, sample_struc)
         metrics = {'msun_ratio': msun_ratio}
 
         # save all generated valid structures
