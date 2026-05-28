@@ -9,7 +9,7 @@ from dataclasses import dataclass, replace
 from typing import Any, Mapping, Protocol, Sequence, TypeVar, runtime_checkable
 
 import torch
-from torch_scatter import scatter
+from torch_geometric.utils import scatter
 
 T = TypeVar("T")
 

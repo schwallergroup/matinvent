@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.distributions import Normal
-from torch_scatter import scatter
+from torch_geometric.utils import scatter
 import pytorch_lightning as pl
 
 from models.diffcsp.utils import lattice_params_to_matrix_torch

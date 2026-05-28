@@ -4,7 +4,7 @@
 from typing import Dict, Iterable, Protocol
 
 import torch
-from torch_scatter import scatter
+from torch_geometric.utils import scatter
 
 from models.mattergen.diffusion.corruption.multi_corruption import MultiCorruption
 from models.mattergen.diffusion.data.batched_data import BatchedData

@@ -3,7 +3,7 @@ from typing import Optional, TypeVar
 from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
 import torch
-from torch_scatter import scatter
+from torch_geometric.utils import scatter
 
 from models.mattergen.diffusion.config import Config
 from models.mattergen.diffusion.data.batched_data import BatchedData

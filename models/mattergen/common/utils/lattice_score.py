@@ -2,7 +2,7 @@
 # Licensed under the MIT License.
 
 import torch
-from torch_scatter import scatter_add
+from torch_geometric.utils import scatter
 
 
 def edge_score_to_lattice_score_frac_symmetric(
@@ -27,11 +27,12 @@ def edge_score_to_lattice_score_frac_symmetric(
     """
     batch_edge = batch[edge_index[0]]
     unit_edge_vectors_cart = edge_vectors / edge_vectors.norm(dim=-1, keepdim=True)
-    score_lattice = scatter_add(
+    score_lattice = scatter(
         score_d[:, None, None]
         * (unit_edge_vectors_cart[:, :, None] @ unit_edge_vectors_cart[:, None, :]),
         batch_edge,
         dim=0,
         dim_size=batch.max() + 1,
+        reduce='sum',
     ).transpose(-1, -2)
     return score_lattice

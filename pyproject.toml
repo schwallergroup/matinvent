@@ -10,8 +10,6 @@ dependencies = [
     "pandas>=2.2.3",
     "torch~=2.8",
     "torch-geometric~=2.7",
-    "torch_scatter",
-    "torch_sparse",
     "lightning[extra]~=2.5",
     "e3nn==0.5.0",
     "pymatgen~=2025.6",
@@ -48,9 +46,6 @@ override-dependencies = [
     "e3nn==0.5.0",
 ]
 
-find-links = [
-    "https://data.pyg.org/whl/torch-2.8.0+cu128.html",
-]
 
 [[tool.uv.index]]
 name     = "pytorch-cu128"

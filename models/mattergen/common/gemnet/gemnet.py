@@ -11,8 +11,7 @@ from typing import Optional, Tuple
 # import numpy as np
 import torch
 import torch.nn as nn
-from torch_scatter import scatter
-from torch_sparse import SparseTensor
+from torch_geometric.utils import scatter
 
 from models.mattergen.common.gemnet.layers.atom_update_block import OutputBlock
 from models.mattergen.common.gemnet.layers.base_layers import Dense
@@ -34,7 +33,7 @@ from models.mattergen.common.utils.data_utils import (
     lattice_params_to_matrix_torch,
     radius_graph_pbc,
 )
-from models.mattergen.common.utils.globals import MODELS_PROJECT_ROOT, get_device, get_pyg_device
+from models.mattergen.common.utils.globals import MODELS_PROJECT_ROOT
 from models.mattergen.common.utils.lattice_score import edge_score_to_lattice_score_frac_symmetric
 
 
@@ -378,22 +377,23 @@ class GemNetT(torch.nn.Module):
             Indices enumerating the copies of id3_ca for creating a padded matrix
         """
         idx_s, idx_t = edge_index  # c->a (source=c, target=a)
+        num_edges = idx_s.size(0)
+        device = idx_s.device
+        num_atoms_int = int(num_atoms)
 
-        value = torch.arange(idx_s.size(0), device=idx_s.device, dtype=idx_s.dtype)
-        # Possibly contains multiple copies of the same edge (for periodic interactions)
-        pyg_device = get_pyg_device() if idx_s.device != torch.device("cpu") else idx_s.device
-        torch_device = get_device() if idx_s.device != torch.device("cpu") else idx_s.device
-        adj = SparseTensor(
-            row=idx_t.to(pyg_device),
-            col=idx_s.to(pyg_device),
-            value=value.to(pyg_device),
-            sparse_sizes=(num_atoms.to(pyg_device), num_atoms.to(pyg_device)),
+        # Build CSR structure: sort edges by target atom (idx_t)
+        sort_perm = idx_t.argsort(stable=True)
+        edge_ptr = torch.zeros(num_atoms_int + 1, dtype=torch.long, device=device)
+        edge_ptr[1:] = torch.bincount(idx_t, minlength=num_atoms_int).cumsum(0)
+
+        # For each edge c->a (id3_ca), enumerate all edges b->a sharing the same target
+        counts = edge_ptr[idx_t + 1] - edge_ptr[idx_t]
+        id3_ca = torch.repeat_interleave(
+            torch.arange(num_edges, device=device), counts
         )
-        adj_edges = adj[idx_t.to(pyg_device)].to(torch_device)
-
-        # Edge indices (b->a, c->a) for triplets.
-        id3_ba = adj_edges.storage.value().to(torch_device)
-        id3_ca = adj_edges.storage.row().to(torch_device)
+        inner_offsets = ragged_range(counts)
+        sort_positions = edge_ptr[idx_t[id3_ca]] + inner_offsets
+        id3_ba = sort_perm[sort_positions]
 
         # Remove self-loop triplets
         # Compare edge indices, not atom indices to correctly handle periodic interactions
@@ -403,7 +403,7 @@ class GemNetT(torch.nn.Module):
 
         # Get indices to reshape the neighbor indices b->a into a dense matrix.
         # id3_ca has to be sorted for this to work.
-        num_triplets = torch.bincount(id3_ca, minlength=idx_s.size(0))
+        num_triplets = torch.bincount(id3_ca, minlength=num_edges)
         id3_ragged_idx = ragged_range(num_triplets)
 
         return id3_ba, id3_ca, id3_ragged_idx

@@ -1,7 +1,7 @@
 import math
 import torch
 import torch.nn as nn
-from torch_scatter import scatter
+from torch_geometric.utils import scatter
 from torch_geometric.utils import dense_to_sparse
 
 from models.diffcsp.utils import radius_graph_pbc, repeat_blocks

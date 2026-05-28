@@ -10,7 +10,7 @@ import sys
 
 import numpy as np
 import torch
-from torch_scatter import segment_coo, segment_csr
+from torch_geometric.utils import scatter, segment
 
 from models.mattergen.common.utils.globals import get_pyg_device
 
@@ -277,7 +277,7 @@ def get_max_neighbors_mask(
     # required because PyG does not support MPS for the segment_coo operation yet.
     pyg_device = get_pyg_device()
     device_before = ones.device
-    num_neighbors = segment_coo(ones.to(pyg_device), index.to(pyg_device), dim_size=num_atoms).to(
+    num_neighbors = scatter(ones.to(pyg_device), index.to(pyg_device), dim=0, dim_size=int(num_atoms), reduce='sum').to(
         device_before
     )
     max_num_neighbors = num_neighbors.max()
@@ -286,7 +286,7 @@ def get_max_neighbors_mask(
     # Get number of (thresholded) neighbors per image
     image_indptr = torch.zeros(natoms.shape[0] + 1, device=device, dtype=torch.long)
     image_indptr[1:] = torch.cumsum(natoms, dim=0)
-    num_neighbors_image = segment_csr(
+    num_neighbors_image = segment(
         num_neighbors_thresholded.to(pyg_device), image_indptr.to(pyg_device)
     ).to(device_before)
 

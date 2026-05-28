@@ -4,7 +4,7 @@
 from typing import Literal, Protocol
 
 import torch
-from torch_scatter import scatter
+from torch_geometric.utils import scatter
 
 from models.mattergen.diffusion.corruption.corruption import Corruption
 from models.mattergen.diffusion.corruption.sde_lib import maybe_expand

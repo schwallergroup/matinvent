@@ -1,7 +1,7 @@
 import copy
 import numpy as np
 import torch
-from torch_scatter import segment_coo, segment_csr
+from torch_geometric.utils import scatter, segment
 
 # Tensor of unit cells. Assumes 27 cells in -1, 0, 1 offsets in the x and y dimensions
 # Note that differing from OCP, we have 27 offsets here because we are in 3D
@@ -277,11 +277,11 @@ def repeat_blocks(
         indptr = torch.cat((sizes.new_zeros(1), diffs.cumsum(0)))
         if continuous_indexing:
             # If a group was skipped (repeats=0) we need to add its size
-            insert_val += segment_csr(sizes[: r1[-1]], indptr, reduce="sum")
+            insert_val += segment(sizes[: r1[-1]], indptr, reduce="sum")
 
         # Add block increments
         if isinstance(block_inc, torch.Tensor):
-            insert_val += segment_csr(
+            insert_val += segment(
                 block_inc[: r1[-1]], indptr, reduce="sum"
             )
         else:
@@ -500,14 +500,14 @@ def radius_graph_pbc(pos, lengths, angles, natoms, radius, max_num_neighbors_thr
             
     else:
         ones = index1.new_ones(1).expand_as(index1)
-        num_neighbors = segment_coo(ones, index1, dim_size=natoms.sum())
+        num_neighbors = scatter(ones, index1, dim=0, dim_size=int(natoms.sum()), reduce='sum')
 
         # Get number of (thresholded) neighbors per image
         image_indptr = torch.zeros(
             natoms.shape[0] + 1, device=device, dtype=torch.long
         )
         image_indptr[1:] = torch.cumsum(natoms, dim=0)
-        num_neighbors_image = segment_csr(num_neighbors, image_indptr)
+        num_neighbors_image = segment(num_neighbors, image_indptr)
 
     edge_index = torch.stack((index2, index1))
 
@@ -528,7 +528,7 @@ def get_max_neighbors_mask(
     # Get number of neighbors
     # segment_coo assumes sorted index
     ones = index.new_ones(1).expand_as(index)
-    num_neighbors = segment_coo(ones, index, dim_size=num_atoms)
+    num_neighbors = scatter(ones, index, dim=0, dim_size=int(num_atoms), reduce='sum')
     max_num_neighbors = num_neighbors.max()
     num_neighbors_thresholded = num_neighbors.clamp(
         max=max_num_neighbors_threshold
@@ -539,7 +539,7 @@ def get_max_neighbors_mask(
         natoms.shape[0] + 1, device=device, dtype=torch.long
     )
     image_indptr[1:] = torch.cumsum(natoms, dim=0)
-    num_neighbors_image = segment_csr(num_neighbors_thresholded, image_indptr)
+    num_neighbors_image = segment(num_neighbors_thresholded, image_indptr)
 
     # If max_num_neighbors is below the threshold, return early
     if (
@@ -589,7 +589,7 @@ def get_max_neighbors_mask(
     index_sort = torch.masked_select(index_sort, mask_finite & mask_distance)
     
     num_neighbor_per_node = (mask_finite & mask_distance).sum(dim=-1)
-    num_neighbors_image = segment_csr(num_neighbor_per_node, image_indptr)
+    num_neighbors_image = segment(num_neighbor_per_node, image_indptr)
     
 
     # At this point index_sort contains the index into index of the

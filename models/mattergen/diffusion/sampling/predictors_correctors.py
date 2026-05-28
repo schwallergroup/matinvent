@@ -11,7 +11,7 @@
 import abc
 
 import torch
-from torch_scatter import scatter_add
+from torch_geometric.utils import scatter
 
 from models.mattergen.diffusion.corruption.corruption import maybe_expand
 from models.mattergen.diffusion.corruption.sde_lib import (
@@ -103,9 +103,9 @@ class LangevinCorrector(Sampler):
             grad_norm = grad_norm_square.sqrt().mean()
             noise_norm = noise_norm_square.sqrt().mean()
         else:
-            grad_norm = torch.sqrt(scatter_add(grad_norm_square, dim=-1, index=batch_idx)).mean()
+            grad_norm = torch.sqrt(scatter(grad_norm_square, batch_idx, dim=-1, reduce='sum')).mean()
 
-            noise_norm = torch.sqrt(scatter_add(noise_norm_square, dim=-1, index=batch_idx)).mean()
+            noise_norm = torch.sqrt(scatter(noise_norm_square, batch_idx, dim=-1, reduce='sum')).mean()
 
         # If gradient is zero (i.e., we are sampling from an improper distribution that's flat over the whole of R^n)
         # the step_size blows up. Clip step_size to avoid this.

@@ -4,7 +4,7 @@
 from typing import Optional, Tuple, Union
 
 import torch
-from torch_scatter import scatter_add
+from torch_geometric.utils import scatter
 
 from models.mattergen.diffusion.corruption.corruption import B, Corruption, maybe_expand
 from models.mattergen.diffusion.d3pm import d3pm
@@ -87,7 +87,7 @@ class D3PMCorruption(Corruption):
         probs = self.d3pm.stationary_probs(z.shape).to(z.device)
         log_probs = (probs + 1e-8).log()
         log_prob_per_sample = log_probs[:, self._to_zero_based(z.long())]
-        log_prob_per_structure = scatter_add(log_prob_per_sample, batch_idx, dim=0)
+        log_prob_per_structure = scatter(log_prob_per_sample, batch_idx, dim=0, reduce='sum')
         return log_prob_per_structure
 
     def sample_marginal(

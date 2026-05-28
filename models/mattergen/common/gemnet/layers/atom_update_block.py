@@ -8,7 +8,7 @@ Adapted from https://github.com/FAIR-Chem/fairchem/blob/main/src/fairchem/core/m
 from typing import Tuple
 
 import torch
-from torch_scatter import scatter
+from torch_geometric.utils import scatter
 
 from models.mattergen.common.gemnet.initializers import he_orthogonal_init
 from models.mattergen.common.gemnet.layers.base_layers import Dense, ResidualLayer

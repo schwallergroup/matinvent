@@ -9,7 +9,7 @@ import json
 from typing import Any, Dict, Optional, Tuple
 
 import torch
-from torch_scatter import segment_csr
+from torch_geometric.utils import segment
 
 
 def read_json(path: str) -> Dict:
@@ -171,11 +171,11 @@ def repeat_blocks(
         indptr = torch.cat((sizes.new_zeros(1), diffs.cumsum(0)))
         if continuous_indexing:
             # If a group was skipped (repeats=0) we need to add its size
-            insert_val += segment_csr(sizes[: r1[-1]], indptr, reduce="sum")
+            insert_val += segment(sizes[: r1[-1]], indptr, reduce="sum")
 
         # Add block increments
         if isinstance(block_inc, torch.Tensor):
-            insert_val += segment_csr(block_inc[: r1[-1]], indptr, reduce="sum")
+            insert_val += segment(block_inc[: r1[-1]], indptr, reduce="sum")
         else:
             insert_val += block_inc * (indptr[1:] - indptr[:-1])
             if insert_dummy:
@@ -274,7 +274,7 @@ def inner_product_normalized(x: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
 def mask_neighbors(neighbors: torch.Tensor, edge_mask: torch.Tensor) -> torch.Tensor:
     neighbors_old_indptr = torch.cat([neighbors.new_zeros(1), neighbors])
     neighbors_old_indptr = torch.cumsum(neighbors_old_indptr, dim=0)
-    neighbors = segment_csr(edge_mask.long(), neighbors_old_indptr)
+    neighbors = segment(edge_mask.long(), neighbors_old_indptr)
     return neighbors
 
 

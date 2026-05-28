@@ -9,7 +9,7 @@ from typing import Dict, List, Optional
 # import numpy as np
 import torch
 import torch.nn as nn
-from torch_scatter import scatter
+from torch_geometric.utils import scatter
 
 from models.mattergen.common.data.types import PropertySourceId
 from models.mattergen.common.gemnet.gemnet import GemNetT, ModelOutput

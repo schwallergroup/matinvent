@@ -20,7 +20,7 @@ from typing import Callable, Optional, Protocol, Tuple, Union
 
 import numpy as np
 import torch
-from torch_scatter import scatter_add
+from torch_geometric.utils import scatter
 
 from models.mattergen.diffusion.corruption.corruption import B, Corruption, maybe_expand
 from models.mattergen.diffusion.data.batched_data import BatchedData
@@ -183,7 +183,7 @@ def unit_gaussian_logp(z: torch.Tensor, batch_idx: B = None) -> torch.Tensor:
         if z.ndim > 2:
             raise NotImplementedError
 
-        logps = -N / 2.0 * np.log(2 * np.pi) - scatter_add(torch.sum(z**2, dim=1), batch_idx) / 2.0
+        logps = -N / 2.0 * np.log(2 * np.pi) - scatter(torch.sum(z**2, dim=1), batch_idx, dim=0, reduce='sum') / 2.0
 
     return logps
 
@@ -253,8 +253,8 @@ class VESDE(SDE):
         shape = z.shape
         N = np.prod(shape[1:])
         if batch_idx is not None:
-            return -N / 2.0 * np.log(2 * np.pi * self.sigma_max**2) - scatter_add(
-                torch.sum(z**2, dim=1), batch_idx
+            return -N / 2.0 * np.log(2 * np.pi * self.sigma_max**2) - scatter(
+                torch.sum(z**2, dim=1), batch_idx, dim=0, reduce='sum'
             ) / (2 * self.sigma_max**2)
         else:
             return -N / 2.0 * np.log(2 * np.pi * self.sigma_max**2) - torch.sum(
